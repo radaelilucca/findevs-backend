@@ -1,5 +1,5 @@
 {
-  "name": "DevRadar",
+  "name": "findev",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/radaelilucca/DevRadar.git",
@@ -13,7 +13,9 @@
     "sucrase": "^3.12.1"
   },
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "sucrase ./src -d ./dist --transforms imports"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
