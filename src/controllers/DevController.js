@@ -51,6 +51,20 @@ class DevController {
     const devs = await Dev.find()
     return res.json(devs)
   }
+
+  async delete(req, res){
+    
+    
+    await Dev.findByIdAndDelete(req.query.id)
+    const devs = await Dev.find()
+    return res.json(devs)
+    }
+
+    
+
+    
+
+ 
 }
 
 export default new DevController
