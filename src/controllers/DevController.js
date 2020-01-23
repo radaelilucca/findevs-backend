@@ -52,19 +52,31 @@ class DevController {
     return res.json(devs)
   }
 
-  async delete(req, res){
+  async destroy(req, res) {
     
+    const { github_user } = req.params;
+    const dev = await Dev.findOne({ github_user});
     
-    await Dev.findByIdAndDelete(req.query.id)
-    const devs = await Dev.find()
-    return res.json(devs)
+    if (!dev) {
+      return res.status(404).json({
+        status: 404,
+        error: 'Not Found',
+        message: `O username ${github_user} não existe na base!`,
+      });
     }
 
-    
+    const { _id } = dev;
 
-    
+    const dev = await Dev.findByIdAndUpdate(_id, {
+      active: false,
+    });
+  
+    return res.json({
+      status: 200,
+      message: `Usuário ${github_user} foi deletado com sucesso!`,
+    });
+  }
 
- 
 }
 
 export default new DevController

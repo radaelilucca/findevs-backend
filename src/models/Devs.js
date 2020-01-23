@@ -10,7 +10,8 @@ const DevSchema = new mongoose.Schema({
   location: {
     type: PointSchema,
     index: '2dsphere'
-  }
+  },
+  active: Boolean
 })
 
 export default mongoose.model('Dev', DevSchema)
