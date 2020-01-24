@@ -12,6 +12,7 @@ class SearchController {
     const techsArray = parseStingAsArray(techs)
 
     const devs = await Dev.find({
+      active: true,
       techs: {
         $in: techsArray
       },
