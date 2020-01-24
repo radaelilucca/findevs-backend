@@ -52,10 +52,10 @@ class DevController {
     return res.json(devs)
   }
 
-  async destroy(req, res) {
+  async update(req, res) {
     
     const { github_user } = req.params;
-    const dev = await Dev.findOne({ github_user});
+    const dev = await Dev.findOne({github_user});
     
     if (!dev) {
       return res.status(404).json({
@@ -67,7 +67,7 @@ class DevController {
 
     const { _id } = dev;
 
-    const dev = await Dev.findByIdAndUpdate(_id, {
+    const inativeDev = await Dev.findByIdAndUpdate(_id, {
       active: false,
     });
   
