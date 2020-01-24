@@ -48,7 +48,9 @@ class DevController {
 
   async index(req, res){
 
-    const devs = await Dev.find()
+    const devs = await Dev.find({
+      active: true
+    })
     return res.json(devs)
   }
 
