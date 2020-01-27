@@ -1,6 +1,10 @@
 import Dev from '../models/Devs'
 import jwt from 'jsonwebtoken'
 
+import checkPassword from '../utils/CheckPassword'
+
+import authConfig from '../config/auth'
+
 class SessionController {
   async store(req, res){
 
@@ -8,6 +12,8 @@ class SessionController {
 
 
     const dev = await Dev.findOne({github_user})
+
+    const {name, password_hash} = dev;
     
 
     //check github user
@@ -16,10 +22,24 @@ class SessionController {
     }
 
     //check password
+    const validPasswd = await checkPassword(password, password_hash)
+
+    if(!validPasswd){
+      return res.status(401).json({Error: 'Password does not match'})
+    }
 
 
-
-    return res.json({dev})
+    return res.json({
+      dev: {
+        github_user,
+        name
+      },
+      token: jwt.sign({ github_user }, authConfig.secret, {
+        expiresIn: authConfig.expiresIn,
+      }),
+       
+      }
+    )
   }
 }
 
