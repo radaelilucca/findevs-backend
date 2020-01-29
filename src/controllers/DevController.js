@@ -1,5 +1,6 @@
 import Dev from '../models/Devs'
 import axios from 'axios'
+import bcrypt from 'bcryptjs'
 
 import parseStingAsArray from '../utils/parseStingAsArray'
 
@@ -9,7 +10,7 @@ class DevController {
 
   async store(req, res){
 
-    const {github_user, techs, latitude, longitude} = req.body;
+    const {github_user, techs, latitude, longitude, password, admin} = req.body;
 
     let dev = await Dev.findOne({github_user})
 
@@ -26,8 +27,12 @@ class DevController {
       coordinates: [longitude, latitude]
     }
     
+    const password_hash = await bcrypt.hash(password, 8)
+
     dev = await Dev.create({
       github_user,
+      password_hash,
+      admin: false,
       name,
       bio,
       avatar_url,

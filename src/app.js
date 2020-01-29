@@ -10,7 +10,7 @@ const server = http.Server(app)
 
 setupWebSocket(server)
 
-mongoose.connect(process.env.MONGO_URL,
+mongoose.connect('mongodb+srv://devmode:devmode@cluster0-sqkla.mongodb.net/test?retryWrites=true&w=majority',
 {
   useNewUrlParser: true,
   useUnifiedTopology: true,
