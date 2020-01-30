@@ -16,7 +16,7 @@ routes.post('/login', SessionController.store)
 
 // Auth required routes
 
-routes.use(authMiddleware)
+// routes.use(authMiddleware)
 
 
 // list devs
