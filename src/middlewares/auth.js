@@ -1,26 +1,24 @@
-import jwt from 'jsonwebtoken'
-import {promisify} from 'util'
+import jwt from 'jsonwebtoken';
+import { promisify } from 'util';
 
-import authConfig from '../config/auth'
+import authConfig from '../config/auth';
 
 export default async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if(!authHeader){
-    return res.status(401).json({error: "Token not provided"})
+  if (!authHeader) {
+    return res.status(401).json({ error: 'Token not provided' });
   }
 
-  const [, token] = authHeader.split(' ')
+  const [, token] = authHeader.split(' ');
 
   try {
-    const decoded = await promisify(jwt.verify)(token, authConfig.secret)
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
-    req.userId = decoded.github_user
+    req.userId = decoded.github_user;
 
-    return next()
-
+    return next();
   } catch (error) {
-    return res.status(401).json({error: "Invalid Token!"})
-    
+    return res.status(401).json({ error: 'Invalid Token!' });
   }
-}
+};
