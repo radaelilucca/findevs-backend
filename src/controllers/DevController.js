@@ -63,9 +63,10 @@ class DevController {
   }
 
   async index(req, res) {
-    const devs = await Dev.find({
-      active: true,
-    });
+    // TESTANDO UPPER NOS EXISTENTES
+
+    const devs = await Dev.find({ active: true });
+
     return res.json(devs);
   }
 

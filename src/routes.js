@@ -3,6 +3,7 @@ import { Router } from 'express';
 import DevController from './controllers/DevController';
 import SearchController from './controllers/SearchController';
 import SessionController from './controllers/SessionController';
+import UpperController from './controllers/UpperController';
 
 // import authMiddleware from './middlewares/auth';
 
@@ -13,6 +14,8 @@ routes.post('/devs', DevController.store);
 
 // login
 routes.post('/login', SessionController.store);
+
+routes.put('/teste', UpperController.update);
 
 // Auth required routes
 
