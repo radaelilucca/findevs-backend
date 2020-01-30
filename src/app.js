@@ -10,13 +10,10 @@ const server = http.Server(app);
 
 setupWebSocket(server);
 
-mongoose.connect(
-  'mongodb+srv://devmode:devmode@cluster0-sqkla.mongodb.net/test?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 app.use(cors());
 app.use(express.json());
