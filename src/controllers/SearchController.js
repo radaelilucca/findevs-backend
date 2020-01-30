@@ -4,7 +4,11 @@ import parseStingAsArray from '../utils/parseStingAsArray';
 class SearchController {
   async index(req, res) {
     const { latitude, longitude, techs } = req.query;
-    const techsArray = parseStingAsArray(techs);
+     
+
+    const uppperTechs = techs.toUpperCase();
+    const techsArray = parseStingAsArray(uppperTechs);
+
 
     const devs = await Dev.find({
       active: true,
