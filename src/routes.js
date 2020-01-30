@@ -4,7 +4,11 @@ import DevController from './controllers/DevController';
 import SearchController from './controllers/SearchController';
 import SessionController from './controllers/SessionController';
 
+<<<<<<< HEAD
 // import authMiddleware from './middlewares/auth';
+=======
+import authMiddleware from './middlewares/auth';
+>>>>>>> 0e9e89f93d5b48b53e1f5f6f5143769848aa7138
 
 const routes = Router();
 
