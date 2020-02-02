@@ -15,7 +15,7 @@ class DevController {
       techs,
       latitude,
       longitude,
-      password,
+      //  password,
 
       // admin,
     } = req.body;
@@ -38,11 +38,11 @@ class DevController {
         coordinates: [longitude, latitude],
       };
 
-      const password_hash = await bcrypt.hash(password, 8);
+      // const password_hash = await bcrypt.hash(password, 8);
 
       dev = await Dev.create({
         github_user,
-        password_hash,
+        // password_hash,
         admin: false,
         name,
         bio,
