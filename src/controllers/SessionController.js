@@ -10,13 +10,12 @@ class SessionController {
     const { github_user, password } = req.body;
 
     const dev = await Dev.findOne({ github_user });
-
-    const { name, password_hash } = dev;
-
     // check github user
     if (!dev) {
       return res.status(404).json({ Error: 'Github User Not Found' });
     }
+
+    const { name, password_hash } = dev;
 
     // check password
     const validPasswd = await checkPassword(password, password_hash);

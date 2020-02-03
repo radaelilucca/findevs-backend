@@ -23,6 +23,9 @@ routes.put('/teste', UpperController.update);
 
 // list devs
 routes.get('/devs', DevController.index);
+
+// get a  dev
+routes.get('/dev/:github_user', DevController.show);
 // inative devs
 routes.put('/devs/delete/:github_user', DevController.update);
 // search devs
