@@ -101,7 +101,7 @@ class DevController {
 
     const dev = devs[0];
 
-    return res.json({ dev });
+    return res.json(dev);
   }
 }
 
