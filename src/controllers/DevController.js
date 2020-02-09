@@ -20,14 +20,19 @@ class DevController {
       // admin,
     } = req.body;
 
+    // check if dev already exists in database
     let dev = await Dev.findOne({ github_user });
 
     if (!dev) {
       const upperTechs = upperCaseTechs(techs);
 
-      const response = await axios.get(
-        `https://api.github.com/users/${github_user}`
-      );
+      try {
+        const response = await axios.get(
+          `https://api.github.com/users/${github_user}`
+        );
+      } catch (error) {
+        return res.status(404).json({ error: 'GitHub user does not exist' });
+      }
 
       const { name = login, bio, avatar_url } = response.data;
 
@@ -59,18 +64,22 @@ class DevController {
       sendMessage(sendSocketMessageTo, 'new-dev', dev);
     }
 
-    return res.json(dev);
+    return res.json({ github_user, name, bio, avatar_url, techs, location });
   }
 
   async index(req, res) {
     // TESTANDO UPPER NOS EXISTENTES
 
-    const devs = await Dev.find({ active: true });
+    const devs = await Dev.find({
+      active: true,
+      github_user: { $ne: req.userId },
+    });
 
     return res.json(devs);
   }
 
   async update(req, res) {
+    // toggle invisivbility
     const { github_user } = req.params;
     const dev = await Dev.findOne({ github_user });
 
@@ -78,23 +87,35 @@ class DevController {
       return res.status(404).json({
         status: 404,
         error: 'Not Found',
-        message: `O username ${github_user} não existe na base!`,
+        message: `This ${github_user} github user is not registred!`,
       });
     }
 
     const { _id } = dev;
+    // check if user is visible, and hide.
+    if (dev.active === true) {
+      const inativeDev = await Dev.findByIdAndUpdate(_id, {
+        active: false,
+      });
+      return res.json({
+        status: 200,
+        message: `The user ${github_user} is invisible now!`,
+      });
+    }
 
     const inativeDev = await Dev.findByIdAndUpdate(_id, {
-      active: false,
+      active: true,
     });
 
     return res.json({
       status: 200,
-      message: `Usuário ${github_user} foi deletado com sucesso!`,
+      message: `The user ${github_user} is visible now!`,
     });
   }
 
+  // get a single dev
   async show(req, res) {
+    // i'm studying how to fix that shit -- shhhhh
     const { github_user } = req.params;
 
     const devs = await Dev.find({ github_user });

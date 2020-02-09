@@ -12,7 +12,9 @@ class SessionController {
     const dev = await Dev.findOne({ github_user });
     // check github user
     if (!dev) {
-      return res.status(404).json({ Error: 'Github User Not Found' });
+      return res
+        .status(404)
+        .json({ error: 'User not found. Please SignUp first!' });
     }
 
     const { name, password_hash } = dev;
@@ -21,7 +23,7 @@ class SessionController {
     const validPasswd = await checkPassword(password, password_hash);
 
     if (!validPasswd) {
-      return res.status(401).json({ Error: 'Password does not match' });
+      return res.status(401).json({ error: 'Password does not match' });
     }
 
     return res.json({
