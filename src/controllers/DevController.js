@@ -64,7 +64,7 @@ class DevController {
       sendMessage(sendSocketMessageTo, 'new-dev', dev);
     }
 
-    return res.json({ github_user, name, bio, avatar_url, techs, location });
+    return res.json(dev);
   }
 
   async index(req, res) {
