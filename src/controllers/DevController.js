@@ -30,38 +30,37 @@ class DevController {
         const response = await axios.get(
           `https://api.github.com/users/${github_user}`
         );
+        const { name = login, bio, avatar_url } = response.data;
+
+        const techsArray = await parseStingAsArray(upperTechs);
+
+        const location = {
+          type: 'Point',
+          coordinates: [longitude, latitude],
+        };
+
+        const password_hash = await bcrypt.hash(password, 8);
+
+        dev = await Dev.create({
+          github_user,
+          password_hash,
+          admin: false,
+          name,
+          bio,
+          avatar_url,
+          techs: techsArray,
+          location,
+        });
+
+        const sendSocketMessageTo = findConnections(
+          { latitude, longitude },
+          techsArray
+        );
+
+        sendMessage(sendSocketMessageTo, 'new-dev', dev);
       } catch (error) {
-        return res.status(404).json({ error: 'GitHub user does not exist' });
+        return res.status(404).json({ error: 'GitHub user does not exist.' });
       }
-
-      const { name = login, bio, avatar_url } = response.data;
-
-      const techsArray = await parseStingAsArray(upperTechs);
-
-      const location = {
-        type: 'Point',
-        coordinates: [longitude, latitude],
-      };
-
-      const password_hash = await bcrypt.hash(password, 8);
-
-      dev = await Dev.create({
-        github_user,
-        password_hash,
-        admin: false,
-        name,
-        bio,
-        avatar_url,
-        techs: techsArray,
-        location,
-      });
-
-      const sendSocketMessageTo = findConnections(
-        { latitude, longitude },
-        techsArray
-      );
-
-      sendMessage(sendSocketMessageTo, 'new-dev', dev);
     }
 
     return res.json(dev);
