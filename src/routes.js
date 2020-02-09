@@ -14,6 +14,9 @@ routes.post('/devs', DevController.store);
 // login
 routes.post('/login', SessionController.store);
 
+// search devs
+routes.get('/search', SearchController.index);
+
 // Auth required routes
 
 routes.use(authMiddleware);
@@ -27,7 +30,6 @@ routes.get('/dev/:github_user', DevController.show);
 // hide/show a dev
 routes.put('/devs/hide/:github_user', DevController.update);
 
-// search devs
-routes.get('/search', SearchController.index);
+
 
 export default routes;
