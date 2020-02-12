@@ -58,12 +58,16 @@ class DevController {
         );
 
         sendMessage(sendSocketMessageTo, 'new-dev', dev);
+
+        return res.json({ sucess: `Wellcome to FinDevs, ${name}` });
       } catch (error) {
         return res.status(404).json({ error: 'GitHub user does not exist.' });
       }
     }
 
-    return res.json(dev);
+    return res.status(401).json({
+      error: `The user ${dev.github_user} already exists on FinDevs Database!`,
+    });
   }
 
   async index(req, res) {
