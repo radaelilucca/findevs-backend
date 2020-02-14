@@ -3,7 +3,10 @@ import PointSchema from './utils/PointSchema';
 
 const DevSchema = new mongoose.Schema({
   name: String,
-  github_user: String,
+  github_user: {
+    type: String,
+    unique: true,
+  },
   password_hash: String,
   admin: {
     type: Boolean,
