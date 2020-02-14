@@ -1,5 +1,6 @@
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
+import * as Yup from 'yup';
 import Dev from '../models/Devs';
 
 import parseStingAsArray from '../utils/parseStingAsArray';
@@ -19,6 +20,18 @@ class DevController {
 
       // admin,
     } = req.body;
+
+    const Schema = Yup.object().shape({
+      github_user: Yup.string().required(),
+      techs: Yup.string().required(),
+      latitude: Yup.string().required(),
+      longitude: Yup.string().required(),
+      password: Yup.string().required(),
+    });
+
+    if (!(await Schema.isValid(req.body))) {
+      return res.status(401).json({ error: 'Error on validate schema' });
+    }
 
     // check if dev already exists in database
     let dev = await Dev.findOne({ github_user });
