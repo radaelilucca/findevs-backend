@@ -13,7 +13,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.8.7",
     "socket.io": "^2.3.0",
-    "sucrase": "^3.12.1"
+    "sucrase": "^3.12.1",
+    "yup": "^0.28.1"
   },
   "scripts": {
     "start": "sucrase-node src/server.js",
