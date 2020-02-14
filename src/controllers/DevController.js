@@ -76,7 +76,7 @@ class DevController {
     const devs = await Dev.find({
       active: true,
       github_user: { $ne: req.userId },
-    });
+    }).sort({ name: 1 });
 
     return res.json(devs);
   }
